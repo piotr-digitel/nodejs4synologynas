@@ -39,13 +39,23 @@ app.listen(3000, () => console.log('Example app listening on port 3000!'))
 ### To keep the process running independent of the SSH client  
 1. When you exit the Node process by pressing CTRL+C or closing the SSH client, you will notice the website goes offline. We will need to keep the process running in the background. 
 1. To keep the process runnning we use a Node package called "forever". To install it type ```npm install forever -g``` The -g option installs the package globally - since it's not a dependency of the specific project, but rather a general utility we need on the server.
-1. We can now type ```sudo forever start index.js``` and the server will keep running even after we exit the SSH process.
-1. If you are getting an error: `bash: forever: command not found` check that forever is installed with the "-g" (global) option
-1. If you have installed forever globally, and you are still seeing this error. Edit the `/etc/profile` file and add the full path to the forever binary to the PATH statement in you boot-profile. You can use the built-in editor "vim". `sudo vim /etc/profile`  
-1. For me the "forever"-binary was located in `/volume1/@appstore/Node.js_v8/usr/local/lib/node_modules/forever/bin` it might be different for you. You will need to close you shell and re-open it to use the changes in the PATH variable.
-1. To find the executable you can use the command: `cd / && sudo find -name forever  -executable -type f`  
-1. Note. Each directory in the PATH is seperated by `:`. Be sure to type in only the folder name that contains the executable - NOT the name of the executable itself.
-1. For general filemanagement and editing I recommend installing and using "Midnight Commander" from https://synocommunity.com/. (Installation instructions are on the site) When it's installed start it using ```sudo mc```.
+
+Open the file below in your editor:
+[/share/CACHEDEV1_DATA/.qpkg/nodejsv8/node/lib/node_modules/npm/node_modules/uid-number] # vi uid-number.js
+
+Goto line 11, then replace uidSupport = process.getuid && process.setuid with uidSupport = false
+
+
+
+
+
+3. We can now type ```sudo forever start index.js``` and the server will keep running even after we exit the SSH process.
+4. If you are getting an error: `bash: forever: command not found` check that forever is installed with the "-g" (global) option
+5. If you have installed forever globally, and you are still seeing this error. Edit the `/etc/profile` file and add the full path to the forever binary to the PATH statement in you boot-profile. You can use the built-in editor "vim". `sudo vim /etc/profile`  
+6. For me the "forever"-binary was located in `/volume1/@appstore/Node.js_v8/usr/local/lib/node_modules/forever/bin` it might be different for you. You will need to close you shell and re-open it to use the changes in the PATH variable.
+7. To find the executable you can use the command: `cd / && sudo find -name forever  -executable -type f`  
+8. Note. Each directory in the PATH is seperated by `:`. Be sure to type in only the folder name that contains the executable - NOT the name of the executable itself.
+9. For general filemanagement and editing I recommend installing and using "Midnight Commander" from https://synocommunity.com/. (Installation instructions are on the site) When it's installed start it using ```sudo mc```.
 
 ### Restart the Node.js server after each NAS restart (recommended)
 It's possible to access the server manually each time we restart or update, but ideally we would like to be able to restart and update and have our Node server start up along side everything else.
